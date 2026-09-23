@@ -189,18 +189,22 @@ export const PostBookSpotModal: React.FC<PostBookSpotModalProps> = ({
         if (!createdSpot) {
           createdSpot = {
             id: `spot-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+            postType: 'request',
             bookName: payload.bookName,
-            stallName: payload.stallName,
-            hall: payload.hall,
+            stallId: 'community-request',
+            stallName: 'Community Request',
+            hall: 'All Halls',
+            stallNumber: '',
+            images: [],
             notes: payload.notes,
             finderName: payload.finderName,
             finderHandle: userProfile?.handle || 'guest',
             timestamp: Date.now(),
             status: 'Looking for Book',
             helpfulCount: 0,
-            ratings: [],
-            isVerifiedSampath: userProfile?.isSampathCustomer || false,
-            isRequest: true
+            aiVerified: true,
+            ratingAverage: 5.0,
+            ratingCount: 0
           };
         }
 
@@ -248,7 +252,7 @@ export const PostBookSpotModal: React.FC<PostBookSpotModalProps> = ({
       }
 
       const payload = {
-        postType: 'spot',
+        postType: 'spot' as const,
         bookName: bookName.trim(),
         stallId: selectedStallId,
         stallName,
@@ -278,7 +282,9 @@ export const PostBookSpotModal: React.FC<PostBookSpotModalProps> = ({
       if (!createdSpot) {
         createdSpot = {
           id: `spot-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+          postType: 'spot',
           bookName: payload.bookName,
+          stallId: payload.stallId,
           stallName: payload.stallName,
           hall: payload.hall,
           stallNumber: payload.stallNumber,
@@ -290,9 +296,9 @@ export const PostBookSpotModal: React.FC<PostBookSpotModalProps> = ({
           timestamp: Date.now(),
           status: 'In Stock',
           helpfulCount: 0,
-          ratings: [],
-          isVerifiedSampath: userProfile?.isSampathCustomer || false,
-          isRequest: false
+          aiVerified: true,
+          ratingAverage: 5.0,
+          ratingCount: 0
         };
       }
 
