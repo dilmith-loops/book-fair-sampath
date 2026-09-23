@@ -1,0 +1,32 @@
+# Hostinger / Apache configuration for BMICH Book Fair Spotter
+DirectoryIndex dist/index.html index.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /sambook/
+
+  # If directly requesting index.html, serve dist/index.html
+  RewriteRule ^index\.html$ dist/index.html [L]
+
+  # Route assets directory to dist/assets/
+  RewriteRule ^assets/(.*)$ dist/assets/$1 [L]
+
+  # Route static root files to dist/
+  RewriteRule ^(favicon\.ico|manifest\.webmanifest|sw\.js|registerSW\.js|workbox-.*\.js|logo.*\.png|pwa-.*\.png|g-pay\.png|icon\.svg)$ dist/$1 [L]
+
+  # If requested path exists inside dist/, rewrite to dist/
+  RewriteCond %{DOCUMENT_ROOT}/sambook/dist/$1 -f [OR]
+  RewriteCond %{DOCUMENT_ROOT}/sambook/dist/$1 -d
+  RewriteRule ^(.*)$ dist/$1 [L]
+
+  # SPA fallback: route all other requests to dist/index.html
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /sambook/dist/index.html [L]
+</IfModule>
+
+# Security: prevent accessing sensitive development and config files
+<FilesMatch "(\.env.*|\.ts|\.tsx|\.json|tsconfig.*|\.lock)$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
