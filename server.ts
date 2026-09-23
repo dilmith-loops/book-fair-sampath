@@ -610,6 +610,7 @@ async function startServer() {
   // Serve public static assets directly
   const publicPath = path.join(process.cwd(), 'public');
   app.use(express.static(publicPath));
+  app.use('/sambook', express.static(publicPath));
   app.use('/bookfair', express.static(publicPath));
 
   // Vite middleware setup
@@ -622,6 +623,7 @@ async function startServer() {
   } else {
     const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
+    app.use('/sambook', express.static(distPath));
     app.use('/bookfair', express.static(distPath));
     app.get('*', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));

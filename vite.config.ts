@@ -6,7 +6,7 @@ import {VitePWA} from 'vite-plugin-pwa';
 
 export default defineConfig(() => {
   return {
-    base: '/bookfair/',
+    base: '/sambook/',
     plugins: [
       react(),
       tailwindcss(),
@@ -14,30 +14,30 @@ export default defineConfig(() => {
         registerType: 'autoUpdate',
         includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'icon.svg', 'logo.png', 'logo-icon.png', 'logo.jpeg', 'pwa-192x192.png', 'pwa-512x512.png'],
         manifest: {
-          id: '/bookfair/',
+          id: '/sambook/',
           name: 'BMICH Book Fair Spotter - Sampath Bank',
           short_name: 'BookSpotter',
           description: 'Official community helper app for the BMICH Colombo Book Fair 2026, sponsored by Sampath Bank PLC.',
           theme_color: '#F37021',
           background_color: '#09090B',
           display: 'standalone',
-          start_url: '/bookfair/',
-          scope: '/bookfair/',
+          start_url: '/sambook/',
+          scope: '/sambook/',
           icons: [
             {
-              src: '/bookfair/pwa-192x192.png',
+              src: '/sambook/pwa-192x192.png',
               sizes: '192x192',
               type: 'image/png',
               purpose: 'any',
             },
             {
-              src: '/bookfair/pwa-512x512.png',
+              src: '/sambook/pwa-512x512.png',
               sizes: '512x512',
               type: 'image/png',
               purpose: 'any',
             },
             {
-              src: '/bookfair/pwa-maskable-512x512.png',
+              src: '/sambook/pwa-maskable-512x512.png',
               sizes: '512x512',
               type: 'image/png',
               purpose: 'maskable',
