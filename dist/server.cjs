@@ -1182,6 +1182,12 @@ async function startServer() {
   const PORT = Number(process.env.PORT) || 3001;
   app.use(import_express.default.json({ limit: "20mb" }));
   app.use(import_express.default.urlencoded({ extended: true, limit: "20mb" }));
+  app.use((req, res, next) => {
+    if (req.url.startsWith("/sambook/api")) {
+      req.url = req.url.replace("/sambook/api", "/api");
+    }
+    next();
+  });
   app.get("/api/health", (req, res) => {
     res.json({
       status: "ok",

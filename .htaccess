@@ -5,6 +5,9 @@ DirectoryIndex dist/index.html index.html
   RewriteEngine On
   RewriteBase /sambook/
 
+  # Route API endpoints to PHP handler
+  RewriteRule ^api/(.*)$ api.php?route=$1 [QSA,L]
+
   # If directly requesting index.html, serve dist/index.html
   RewriteRule ^index\.html$ dist/index.html [L]
 

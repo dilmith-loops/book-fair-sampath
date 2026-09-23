@@ -288,6 +288,14 @@ async function startServer() {
   app.use(express.json({ limit: '20mb' }));
   app.use(express.urlencoded({ extended: true, limit: '20mb' }));
 
+  // Support both /sambook/api and /api
+  app.use((req, res, next) => {
+    if (req.url.startsWith('/sambook/api')) {
+      req.url = req.url.replace('/sambook/api', '/api');
+    }
+    next();
+  });
+
   // API Routes
   app.get('/api/health', (req, res) => {
     res.json({

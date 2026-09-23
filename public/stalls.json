@@ -1,0 +1,122 @@
+[
+  {
+    "id": "sarasavi-a",
+    "name": "Sarasavi Bookshop",
+    "hall": "Hall A",
+    "stallNumber": "A12 - A18",
+    "specialDiscount": "20% off with Sampath Credit Cards",
+    "category": "General & International Fiction, Translations"
+  },
+  {
+    "id": "gunasena-b",
+    "name": "M.D. Gunasena",
+    "hall": "Hall B",
+    "stallNumber": "B01 - B10",
+    "specialDiscount": "15% off with Sampath Debit Cards",
+    "category": "Children, Sinhala Classics, Educational"
+  },
+  {
+    "id": "vijitha-yapa-a",
+    "name": "Vijitha Yapa Bookshop",
+    "hall": "Hall A",
+    "stallNumber": "A01 - A06",
+    "specialDiscount": "Up to 25% on selected imports",
+    "category": "Best-sellers, Non-fiction, History"
+  },
+  {
+    "id": "expographic-c",
+    "name": "Expographic Books",
+    "hall": "Hall C",
+    "stallNumber": "C15 - C20",
+    "specialDiscount": "Sampath 20% off on Academic & Self-help",
+    "category": "Academic, Self Development, Sci-Fi"
+  },
+  {
+    "id": "grantha-s",
+    "name": "Grantha.lk",
+    "hall": "Sirimavo Hall",
+    "stallNumber": "S05 - S08",
+    "specialDiscount": "Buy 2 Get 1 Free offers",
+    "category": "Sinhala Contemporary, Translations, Graphic Novels"
+  },
+  {
+    "id": "lakehouse-b",
+    "name": "Lake House Bookshop",
+    "hall": "Hall B",
+    "stallNumber": "B14 - B18",
+    "specialDiscount": "15% instant discount on all titles",
+    "category": "Sri Lankan Heritage, Dictionaries, Literature"
+  },
+  {
+    "id": "godage-d",
+    "name": "Godage International",
+    "hall": "Hall D",
+    "stallNumber": "D01 - D08",
+    "specialDiscount": "Special fair discounts + Sampath cashback",
+    "category": "Sinhala Literature, Drama, Poetry, History"
+  },
+  {
+    "id": "samayawardhana-c",
+    "name": "Samayawardhana Publishers",
+    "hall": "Hall C",
+    "stallNumber": "C04 - C08",
+    "specialDiscount": "Special school discounts",
+    "category": "Novels, Translations, Religious books"
+  },
+  {
+    "id": "makeen-a",
+    "name": "Makeen Books",
+    "hall": "Hall A",
+    "stallNumber": "A22 - A26",
+    "specialDiscount": "15% off on Young Adult & Manga",
+    "category": "Manga, Young Adult, Fantasy, Imports"
+  },
+  {
+    "id": "dayawansa-d",
+    "name": "Dayawansa Jayakody & Co",
+    "hall": "Hall D",
+    "stallNumber": "D12 - D15",
+    "specialDiscount": "10% flat discount on all publications",
+    "category": "Sinhala Fiction, Cultural studies"
+  },
+  {
+    "id": "sadeepa-b",
+    "name": "Sadeepa Bookshop",
+    "hall": "Hall B",
+    "stallNumber": "B22 - B25",
+    "specialDiscount": "Sampath 15% instant voucher",
+    "category": "Stationery, Academic & General"
+  },
+  {
+    "id": "jumpbooks-c",
+    "name": "Jumpbooks.lk",
+    "hall": "Hall C",
+    "stallNumber": "C30 - C32",
+    "specialDiscount": "Special discount bundles for Gen Z & youth",
+    "category": "Thrillers, Romance, English Paperbacks"
+  },
+  {
+    "id": "jeya-a",
+    "name": "Jeya Book Centre",
+    "hall": "Hall A",
+    "stallNumber": "A30 - A34",
+    "specialDiscount": "Sampath cardholders 20% discount",
+    "category": "Medical, Engineering, International paperbacks"
+  },
+  {
+    "id": "masterguide-e",
+    "name": "Masterguide Publications",
+    "hall": "Hall E",
+    "stallNumber": "E10 - E14",
+    "specialDiscount": "Examination guides special price",
+    "category": "O/L & A/L Exam Guides, Past Papers"
+  },
+  {
+    "id": "buddhist-cultural-e",
+    "name": "Buddhist Cultural Centre",
+    "hall": "Hall E",
+    "stallNumber": "E01 - E04",
+    "specialDiscount": "15% off on Dhamma publications",
+    "category": "Philosophy, Buddhism, Meditation"
+  }
+]

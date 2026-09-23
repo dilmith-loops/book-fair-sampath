@@ -11,11 +11,19 @@ import { OfflineIndicator } from './components/OfflineIndicator';
 import { AdminPanelModal } from './components/AdminPanelModal';
 import { Stall, BookSpotting, UserProfile, Announcement } from './types';
 import { BMICH_STALLS, INITIAL_SPOTTINGS } from './data/initialData';
+import { getApiUrl } from './utils/apiUtils';
 import { Search, MapPin, Building2, CreditCard, Check, Sparkles, Phone, ShieldCheck, Tag, Megaphone, Bell, X } from 'lucide-react';
 
 export default function App() {
   const [stalls, setStalls] = useState<Stall[]>(BMICH_STALLS);
-  const [spots, setSpots] = useState<BookSpotting[]>(INITIAL_SPOTTINGS);
+  const [spots, setSpots] = useState<BookSpotting[]>(() => {
+    try {
+      const saved = localStorage.getItem('sampath_bookfair_spots');
+      return saved ? JSON.parse(saved) : INITIAL_SPOTTINGS;
+    } catch {
+      return INITIAL_SPOTTINGS;
+    }
+  });
   const [selectedHallFilter, setSelectedHallFilter] = useState('All Halls');
   const [activeTab, setActiveTab] = useState<PwaTab>('chat');
 
@@ -110,12 +118,21 @@ export default function App() {
     }
   };
 
+  // Save spots to localStorage whenever updated
+  useEffect(() => {
+    try {
+      localStorage.setItem('sampath_bookfair_spots', JSON.stringify(spots));
+    } catch {
+      // Ignore quota exceptions
+    }
+  }, [spots]);
+
   useEffect(() => {
     async function loadData() {
       try {
         const [stallsRes, spotsRes] = await Promise.all([
-          fetch('/api/stalls'),
-          fetch('/api/spots')
+          fetch(getApiUrl('/api/stalls')),
+          fetch(getApiUrl('/api/spots'))
         ]);
         if (stallsRes.ok) {
           const sData = await stallsRes.json();
@@ -157,9 +174,9 @@ export default function App() {
     );
 
     try {
-      await fetch(`/api/spots/${spotId}/upvote`, { method: 'POST' });
+      await fetch(getApiUrl(`/api/spots/${spotId}/upvote`), { method: 'POST' });
     } catch (err) {
-      console.error('Error upvoting spot:', err);
+      console.warn('Updated spot upvote locally:', err);
     }
   };
 
@@ -172,13 +189,13 @@ export default function App() {
     );
 
     try {
-      await fetch(`/api/spots/${spotId}/status`, {
+      await fetch(getApiUrl(`/api/spots/${spotId}/status`), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status })
       });
     } catch (err) {
-      console.error('Error updating status:', err);
+      console.warn('Updated spot status locally:', err);
     }
   };
 
@@ -203,13 +220,13 @@ export default function App() {
     );
 
     try {
-      await fetch(`/api/spots/${spotId}/rate`, {
+      await fetch(getApiUrl(`/api/spots/${spotId}/rate`), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ score })
       });
     } catch (err) {
-      console.error('Error rating spot:', err);
+      console.warn('Updated spot rating locally:', err);
     }
   };
 

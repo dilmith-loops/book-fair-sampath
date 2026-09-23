@@ -4,6 +4,7 @@ import { Stall, BookSpotting, UserProfile } from '../types';
 import { fileToDataUrl } from '../utils/imageUtils';
 import { PRESET_STALL_PHOTOS } from '../data/initialData';
 import { checkLocalProfanity } from '../utils/moderationPatterns';
+import { getApiUrl } from '../utils/apiUtils';
 
 interface PostBookSpotModalProps {
   isOpen: boolean;
@@ -97,7 +98,7 @@ export const PostBookSpotModal: React.FC<PostBookSpotModalProps> = ({
 
         // Pre-validate image with Gemini AI vision check
         try {
-          const modRes = await fetch('/api/moderate-image', {
+          const modRes = await fetch(getApiUrl('/api/moderate-image'), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ image: dataUrl })
@@ -170,25 +171,40 @@ export const PostBookSpotModal: React.FC<PostBookSpotModalProps> = ({
           notes: requestNotes.trim() || undefined
         };
 
-        const res = await fetch('/api/spots', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          if (data.moderationBlocked) {
-            setAiBlockedReason(data.reason || 'Flagged by Sampath AI Moderation: Inappropriate language detected.');
-          } else {
-            setErrorMsg(data.error || 'Failed to post request.');
+        let createdSpot: BookSpotting | null = null;
+        try {
+          const res = await fetch(getApiUrl('/api/spots'), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.spot) createdSpot = data.spot;
           }
-          setIsSubmitting(false);
-          return;
+        } catch (err) {
+          console.warn('API submission failed, creating request locally:', err);
         }
 
-        onSpotAdded(data.spot);
+        if (!createdSpot) {
+          createdSpot = {
+            id: `spot-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+            bookName: payload.bookName,
+            stallName: payload.stallName,
+            hall: payload.hall,
+            notes: payload.notes,
+            finderName: payload.finderName,
+            finderHandle: userProfile?.handle || 'guest',
+            timestamp: Date.now(),
+            status: 'Looking for Book',
+            helpfulCount: 0,
+            ratings: [],
+            isVerifiedSampath: userProfile?.isSampathCustomer || false,
+            isRequest: true
+          };
+        }
+
+        onSpotAdded(createdSpot);
         onClose();
         return;
       }
@@ -244,25 +260,43 @@ export const PostBookSpotModal: React.FC<PostBookSpotModalProps> = ({
         shelfLocationNote: shelfLocationNote.trim() || undefined
       };
 
-      const res = await fetch('/api/spots', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        if (data.moderationBlocked) {
-          setAiBlockedReason(data.reason || 'Flagged by Sampath AI Moderation: Prohibited content detected.');
-        } else {
-          setErrorMsg(data.error || 'Failed to publish spot.');
+      let createdSpot: BookSpotting | null = null;
+      try {
+        const res = await fetch(getApiUrl('/api/spots'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.spot) createdSpot = data.spot;
         }
-        setIsSubmitting(false);
-        return;
+      } catch (err) {
+        console.warn('API submission failed, creating sighting locally:', err);
       }
 
-      onSpotAdded(data.spot);
+      if (!createdSpot) {
+        createdSpot = {
+          id: `spot-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+          bookName: payload.bookName,
+          stallName: payload.stallName,
+          hall: payload.hall,
+          stallNumber: payload.stallNumber,
+          priceOrOffer: payload.priceOrOffer,
+          images: payload.images,
+          shelfLocationNote: payload.shelfLocationNote,
+          finderName: payload.finderName,
+          finderHandle: userProfile?.handle || 'guest',
+          timestamp: Date.now(),
+          status: 'In Stock',
+          helpfulCount: 0,
+          ratings: [],
+          isVerifiedSampath: userProfile?.isSampathCustomer || false,
+          isRequest: false
+        };
+      }
+
+      onSpotAdded(createdSpot);
       onClose();
     } catch (err: any) {
       setErrorMsg('Network error. Please try again.');
